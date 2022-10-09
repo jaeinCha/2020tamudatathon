@@ -6,15 +6,16 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import numpy as np, json
 import plotly.graph_objects as go
+import urllib.request
 
 dash_app = Dash(__name__, external_stylesheets=[dbc.themes.DARKLY])
 app = dash_app.server
 
-with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
+with urllib.request.urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
     counties = json.load(response)
 
 df = pd.read_csv("https://raw.githubusercontent.com/plotly/datasets/master/fips-unemp-16.csv")
-pred=pd.read_csv('assets/data/model_output.csv').iloc[:,1:].rename(columns={'geoid':'fips'})
+pred=pd.read_csv('model_output.csv').iloc[:,1:].rename(columns={'geoid':'fips'})
 pred.value=np.int64(pred.value.to_numpy())
 df_new=pd.merge(df,pred, on='fips')
 temp_fips=[]
@@ -27,7 +28,7 @@ df_new.fips=temp_fips
 df_new=df_new[['fips','value']][df_new.value!=0]
 df_new['value_log']=np.log10(df_new['value'])
 
-df_dl=pd.read_csv('assets/data/deep_learning.csv')
+df_dl=pd.read_csv('deep_learning.csv')
 df_new_dl=pd.merge(df,df_dl, on='fips')
 temp_fips_dl=[]
 for i in range(len(df_new_dl.fips)):
