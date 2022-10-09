@@ -60,4 +60,4 @@ jobs:
         with:
           app-name: '2022tamudatathon'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E2FE0B43C64F4A7181909DBB7207D8F0 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_75B24C2AF0D34469972A718C2F7B2D2F }}
